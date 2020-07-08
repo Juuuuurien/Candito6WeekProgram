@@ -39,18 +39,6 @@ export default function App() {
     console.log("Done retrieving data");
   };
 
-  // let [fontsLoaded] = useFonts({
-  //   "Inter-Black": require("./src/assets/fonts/Inter/Inter-Black.ttf"),
-  //   "Inter-Bold": require("./src/assets/fonts/Inter/Inter-Bold.ttf"),
-  //   "Inter-ExtraBold": require("./src/assets/fonts/Inter/Inter-ExtraBold.ttf"),
-  //   "Inter-ExtraLight": require("./src/assets/fonts/Inter/Inter-ExtraLight.ttf"),
-  //   "Inter-Light": require("./src/assets/fonts/Inter/Inter-Light.ttf"),
-  //   "Inter-Medium": require("./src/assets/fonts/Inter/Inter-Medium.ttf"),
-  //   "Inter-Regular": require("./src/assets/fonts/Inter/Inter-Regular.ttf"),
-  //   "Inter-SemiBold": require("./src/assets/fonts/Inter/Inter-SemiBold.ttf"),
-  //   "Inter-Thin": require("./src/assets/fonts/Inter/Inter-Thin.ttf"),
-  // });
-
   const loadFonts = async () => {
     await Font.loadAsync({
       "Inter-Black": require("./src/assets/fonts/Inter/Inter-Black.ttf"),
@@ -87,44 +75,12 @@ export default function App() {
   };
 
   if (appReady) {
-    // getData("workoutData").then((data) => console.log(data));
     return (
       <NavigationContainer theme={appTheme}>
         <HomeScreen />
       </NavigationContainer>
     );
   } else {
-    return (
-      // <View
-      //   style={{
-      //     alignItems: "center",
-      //     justifyContent: "center",
-      //     height: "100%",
-      //     width: "100%",
-      //     backgroundColor: "#5DB075",
-      //   }}
-      // >
-      //   <Text
-      //     style={{
-      //       fontSize: 56,
-      //       color: "white",
-      //       fontWeight: "bold",
-      //       textAlign: "center",
-      //     }}
-      //   >
-      //     Candito Training
-      //   </Text>
-      // </View>
-      <AppLoading />
-    );
+    return <AppLoading />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
