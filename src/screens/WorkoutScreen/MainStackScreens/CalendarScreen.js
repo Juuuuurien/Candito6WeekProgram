@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -12,13 +12,17 @@ import { globalStyles, colors } from "../../../styles/global";
 import { Agenda } from "react-native-calendars";
 import { programData } from "./ProgramData";
 
-const CalendarScreen = ({ navigation }) => {
+import { WorkoutScreenContext } from "../WorkoutScreenContext";
+
+const CalendarScreen = ({ navigation, route }) => {
   const moment = require("moment");
 
   const [markedDates, setMarkedDates] = useState({});
   const [screenReady, setScreenReady] = useState(false);
   const [screenData, setScreenData] = useState(null);
   const [items, setItems] = useState({});
+
+  const context = useContext(WorkoutScreenContext);
 
   useEffect(() => {
     const fetch = async () => {
@@ -80,6 +84,7 @@ const CalendarScreen = ({ navigation }) => {
   }
   const clearData = async () => {
     await AsyncStorage.clear();
+    context(false);
   };
 
   const AgendaComponent = (day) => {

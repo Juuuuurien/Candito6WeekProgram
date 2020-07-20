@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import SquareButton from "../../../components/global/roundedSquareButton";
+import { View, Text, StyleSheet } from "react-native";
 import { globalStyles, colors } from "../../../styles/global";
 import { Fontisto } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
