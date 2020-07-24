@@ -8,6 +8,7 @@ export const programData = [
     {
       week: "Week 1",
       title: "Moderate Hypertrophy - Day 1",
+      finished: true,
       data: [],
     },
   ],
@@ -15,6 +16,7 @@ export const programData = [
     {
       week: "Week 1",
       title: "Moderate Hypertrophy - Day 2",
+      finished: true,
       data: [],
     },
   ],
@@ -22,6 +24,7 @@ export const programData = [
     {
       week: "Week 1",
       title: "Moderate Hypertrophy - Day 3",
+      finished: false,
       data: [],
     },
   ],
@@ -29,6 +32,7 @@ export const programData = [
     {
       week: "Week 1",
       title: "Moderate Hypertrophy - Day 4",
+      finished: false,
       data: [],
     },
   ],
@@ -36,6 +40,7 @@ export const programData = [
     {
       week: "Week 1",
       title: "Moderate Hypertrophy - Day 5",
+      finished: false,
       data: [],
     },
   ],

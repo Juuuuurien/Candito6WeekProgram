@@ -5,6 +5,7 @@ import { globalStyles } from "../../styles/global";
 import CalendarScreen from "./MainStackScreens/CalendarScreen";
 import SettingsStackScreen from "./SetupStackScreens/SettingsStackScreen";
 import NoWorkoutsScreen from "./SetupStackScreens/NoWorkoutsScreen";
+import ShowExerciseScreen from "./MainStackScreens/ShowExerciseScreen";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { WorkoutScreenContext } from "./WorkoutScreenContext";
@@ -20,21 +21,7 @@ import { WorkoutScreenContext } from "./WorkoutScreenContext";
 const MainStack = createStackNavigator();
 const SetupStack = createStackNavigator();
 
-const ExerciseScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Text>Exercise here!!</Text>
-      <Button
-        title="Navigate"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      ></Button>
-    </View>
-  );
-};
-
-const RootScreen = () => {
+const RootWorkoutScreen = () => {
   const [dataPresent, setDataPresent] = useState(false);
 
   // Check AsyncStorage for user data.
@@ -52,7 +39,8 @@ const RootScreen = () => {
     checkData();
   });
 
-  // If
+  // if startDate is present in AsyncStorage, then display MainStackScreen
+
   if (dataPresent) {
     return (
       <WorkoutScreenContext.Provider value={setDataPresent}>
@@ -60,12 +48,14 @@ const RootScreen = () => {
           <MainStack.Screen
             name="CalendarScreen"
             component={CalendarScreen}
-            initialParams={{ dataPresentState: setDataPresent }}
             options={{
               headerShown: false,
             }}
           />
-          <MainStack.Screen name="ExerciseScreen" component={ExerciseScreen} />
+          <MainStack.Screen
+            name="ExerciseScreen"
+            component={ShowExerciseScreen}
+          />
         </MainStack.Navigator>
       </WorkoutScreenContext.Provider>
     );
@@ -95,4 +85,4 @@ const RootScreen = () => {
   }
 };
 
-export default RootScreen;
+export default RootWorkoutScreen;

@@ -5,16 +5,18 @@ import {
   Button,
   ActivityIndicator,
   TouchableOpacity,
-  Alert,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { globalStyles, colors } from "../../../styles/global";
 import { Agenda } from "react-native-calendars";
 import { programData } from "./ProgramData";
 
 import { WorkoutScreenContext } from "../WorkoutScreenContext";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const CalendarScreen = ({ navigation, route }) => {
+const CalendarScreen = ({ navigation }) => {
   const moment = require("moment");
 
   const [markedDates, setMarkedDates] = useState({});
@@ -50,6 +52,7 @@ const CalendarScreen = ({ navigation, route }) => {
     const itemsObj = {};
     const markedDatesObj = {};
     let count = 0;
+
     for (let i = 1; i <= 43; i++) {
       if (
         i !== 3 &&
@@ -77,14 +80,27 @@ const CalendarScreen = ({ navigation, route }) => {
       }
       dateMoment.add(1, "days");
     }
-    console.log(itemsObj);
     setMarkedDates(markedDatesObj);
     setItems(itemsObj);
     setScreenReady(true);
   }
+
   const clearData = async () => {
     await AsyncStorage.clear();
     context(false);
+
+    const data = {
+      startDate: null,
+      oneRepMaxes: null,
+      accessoryExercises: null,
+    };
+    try {
+      const emptyData = JSON.stringify(data);
+      await AsyncStorage.setItem("workoutData", emptyData);
+    } catch (err) {
+      console.log("Error trying to set empty data");
+    }
+    console.log("Empty data has been set!");
   };
 
   const AgendaComponent = (day) => {
@@ -94,21 +110,31 @@ const CalendarScreen = ({ navigation, route }) => {
           backgroundColor: colors.darkerGray,
           calendarBackground: colors.darkerGray,
           todayTextColor: colors.green,
-          selectedDayBackgroundColor: colors.green,
-          dotColor: colors.green,
-          textDisabledColor: "#222222",
-          dayTextColor: colors.green,
+          selectedDayBackgroundColor: colors.vibrantGreen,
+          dotColor: colors.vibrantGreen,
+          textDisabledColor: colors.lightGray,
+          dayTextColor: "#fff",
           monthTextColor: "#ffffff",
         }}
         rowHasChanged={(r1, r2) => {
           return r1.text !== r2.text;
         }}
         selected={screenData.startDate}
-        pastScrollRange={1}
+        pastScrollRange={0}
         futureScrollRange={3}
         minDate={screenData.startDate}
         items={items}
         renderItem={(item) => {
+          let checkmarkColor;
+
+          if (item.finished) {
+            checkmarkColor = colors.vibrantGreen;
+          } else if (!item.finished) {
+            checkmarkColor = colors.lightGray;
+          }
+
+          console.log(item);
+
           return (
             <View
               style={{ flexDirection: "row", flex: 1, margin: 10, height: 100 }}
@@ -119,12 +145,18 @@ const CalendarScreen = ({ navigation, route }) => {
                   justifyContent: "center",
                   alignItems: "center",
                   backgroundColor: colors.darkGray,
-                  borderRadius: 4,
-                  padding: 15,
-                  elevation: 5,
+                  borderRadius: 8,
                 }}
-                onPress={() => Alert.alert(item.name)}
+                onPress={() => {
+                  navigation.navigate("ExerciseScreen", item);
+                }}
               >
+                <Ionicons
+                  style={{ position: "absolute", right: "3%", top: "7%" }}
+                  name="ios-checkmark-circle"
+                  size={24}
+                  color={checkmarkColor}
+                />
                 <Text
                   style={{
                     color: colors.lightGray,
@@ -145,13 +177,14 @@ const CalendarScreen = ({ navigation, route }) => {
                   {item.title}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   flex: 1,
+                  marginHorizontal: 10,
                   backgroundColor: colors.vibrantGreen,
-                  borderRadius: 4,
+                  borderRadius: 8,
                 }}
-              />
+              /> */}
             </View>
           );
         }}
@@ -166,7 +199,6 @@ const CalendarScreen = ({ navigation, route }) => {
                   borderRadius: 3,
                   margin: 10,
                 }}
-                onPress={() => Alert.alert(item.name)}
               >
                 <Text
                   style={{
@@ -175,7 +207,7 @@ const CalendarScreen = ({ navigation, route }) => {
                     fontSize: 18,
                   }}
                 >
-                  Rest day zzz.
+                  {"Rest day zzz."}
                 </Text>
               </TouchableOpacity>
             </View>
